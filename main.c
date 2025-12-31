@@ -41,11 +41,12 @@ void show_help(int retcode)
 }
 
 //------------------------------------------------------------------------
-int distance(const uint64_t * restrict a, const uint64_t * restrict b, size_t len, int maxdiff)
+// use abs, since clean up results in stripping the INF from INF-int resulting in a negative
+int distance(const int* restrict a, const int* restrict b, size_t len, int maxdiff)
 {
   int diff=0;
   for (size_t i=0; i < len; i++) {
-    if (a[i] != b[i] && a[i] != IGNORE_ALLELE && b[i] != IGNORE_ALLELE) {
+    if (abs(a[i]) != abs(b[i]) && a[i] != IGNORE_ALLELE && b[i] != IGNORE_ALLELE) {
       diff++;
       if (diff >= maxdiff) return maxdiff;
     }
